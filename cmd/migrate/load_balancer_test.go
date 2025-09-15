@@ -433,7 +433,7 @@ func TestLoadBalancerRulesTransformation(t *testing.T) {
 		//		},
 	}
 
-	RunTransformationTests(t, tests, transformFile)
+	RunTransformationTests(t, tests, transformFileDefault)
 }
 
 // Configuration transformation tests for pool blocks to maps
@@ -554,7 +554,7 @@ func TestLoadBalancerPoolBlockTransformation(t *testing.T) {
 		},
 	}
 
-	RunTransformationTests(t, tests, transformFile)
+	RunTransformationTests(t, tests, transformFileDefault)
 }
 
 // Test the new region_pools consolidation from v4 to v5 format

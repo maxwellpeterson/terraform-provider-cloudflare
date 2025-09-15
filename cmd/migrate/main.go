@@ -24,6 +24,7 @@ func main() {
 	useTransformer := flag.Bool("transformer", false, "Use Go-based YAML transformations (default: false)")
 	transformerConfig := flag.String("transformer-dir", "", "Path to directory containing transformer YAML configs (defaults to embedded configs)")
 	patternsDir := flag.String("patterns-dir", "", "Local directory to get patterns from (otherwise they're pulled from github)")
+	zoneSettingsModule := flag.Bool("zone-settings-module", false, "Expand zone_settings module calls to individual resources at call sites")
 	flag.Parse()
 
 	// Default config directory to current working directory if not specified
@@ -109,7 +110,7 @@ func main() {
 	// Process config directory if specified and not explicitly disabled
 	if *configDir != "" && *configDir != "false" {
 		fmt.Println("Running Go transformations on configuration files...")
-		if err := processConfigDirectory(*configDir, *dryRun); err != nil {
+		if err := processConfigDirectory(*configDir, *dryRun, *zoneSettingsModule); err != nil {
 			log.Fatalf("Error processing config directory: %v", err)
 		}
 	}
@@ -126,7 +127,7 @@ func main() {
 	}
 }
 
-func processConfigDirectory(directory string, dryRun bool) error {
+func processConfigDirectory(directory string, dryRun bool, zoneSettingsModule bool) error {
 	// Check if the directory exists
 	info, err := os.Stat(directory)
 	if err != nil {
@@ -156,7 +157,7 @@ func processConfigDirectory(directory string, dryRun bool) error {
 		}
 
 		// Process the file
-		if err := processFile(path, dryRun); err != nil {
+		if err := processFile(path, dryRun, zoneSettingsModule); err != nil {
 			log.Printf("Error processing file %s: %v", path, err)
 			// return err
 		}
@@ -196,7 +197,7 @@ func processStateFile(stateFile string, dryRun bool) error {
 	return nil
 }
 
-func processFile(filename string, dryRun bool) error {
+func processFile(filename string, dryRun bool, zoneSettingsModule bool) error {
 	fmt.Printf("    DEBUG: Processing file %s\n", filename)
 
 	// Read the file
@@ -206,7 +207,7 @@ func processFile(filename string, dryRun bool) error {
 	}
 
 	// Transform the file
-	transformedBytes, err := transformFile(originalBytes, filename)
+	transformedBytes, err := transformFile(originalBytes, filename, zoneSettingsModule)
 	if err != nil {
 		return err
 	}
@@ -230,9 +231,16 @@ func processFile(filename string, dryRun bool) error {
 	return nil
 }
 
-func transformFile(content []byte, filename string) ([]byte, error) {
+func transformFile(content []byte, filename string, zoneSettingsModule bool) ([]byte, error) {
 	// Create new diagnostics collector for this file
 	diags := ast.NewDiagnostics()
+	// Handle zone_settings module expansion if enabled
+	if zoneSettingsModule {
+		contentStr := string(content)
+		contentStr = expandZoneSettingsModules(contentStr)
+		content = []byte(contentStr)
+	}
+
 	// First, transform header blocks in load_balancer_pool resources at the string level
 	// This is needed because grit leaves header blocks inside origins lists, which causes parsing issues
 	contentStr := string(content)
@@ -411,4 +419,10 @@ func transformFile(content []byte, filename string) ([]byte, error) {
 	}
 
 	return formatted, nil
+}
+
+// transformFileDefault is a wrapper for transformFile with default settings (no zone settings module expansion)
+// This maintains backward compatibility with existing test functions
+func transformFileDefault(content []byte, filename string) ([]byte, error) {
+	return transformFile(content, filename, false)
 }
