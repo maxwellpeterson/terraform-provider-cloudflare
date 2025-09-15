@@ -1,5 +1,30 @@
 # Changelog
 
+## 5.11.0 (2025-09-15)
+
+Full Changelog: [v5.10.0...v5.11.0](https://github.com/cloudflare/terraform-provider-cloudflare/compare/v5.10.0...v5.11.0)
+
+### Features
+
+* grit to go ([#6162](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6162)) ([b3c4779](https://github.com/cloudflare/terraform-provider-cloudflare/commit/b3c47796075888b92723ee8888bd8de9e3ab00b3))
+
+
+### Bug Fixes
+
+* cloudflare_load_balancer transformation issues ([#6171](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6171)) ([92f4a4a](https://github.com/cloudflare/terraform-provider-cloudflare/commit/92f4a4ac3cdf493d0c543a6a234d74772f349236))
+* fix grit in migration tests ([#6175](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6175)) ([0a25a5e](https://github.com/cloudflare/terraform-provider-cloudflare/commit/0a25a5e05c3f63866e493839419a0a253ac19fee))
+* lb and lb pool config migration ([#6170](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6170)) ([2af41f8](https://github.com/cloudflare/terraform-provider-cloudflare/commit/2af41f86cd166578f227f27ef4edbbb0d2feb4eb))
+* ruleset migration in nogrit ([#6174](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6174)) ([ecb450d](https://github.com/cloudflare/terraform-provider-cloudflare/commit/ecb450d4adde5adb19a49bbbf5026d1995792705))
+* ruleset migration issues ([#6163](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6163)) ([44b653c](https://github.com/cloudflare/terraform-provider-cloudflare/commit/44b653c81b591b3e865fe3d9cae6b88033914c48))
+* ruleset migration issues ([#6168](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6168)) ([11b3961](https://github.com/cloudflare/terraform-provider-cloudflare/commit/11b396108147fdad462bb0fb839f1f0766a7fc9b))
+
+
+### Chores
+
+* enable mconn tests ([#6166](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6166)) ([9c6653b](https://github.com/cloudflare/terraform-provider-cloudflare/commit/9c6653bab8b8b4ca35fe14bb24bdc68e4d39c268))
+* limit max retries ([#6173](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6173)) ([8c1c81c](https://github.com/cloudflare/terraform-provider-cloudflare/commit/8c1c81c76d97e932e91287700c44c844d15040cd))
+* point transformations to gh/next ([#6177](https://github.com/cloudflare/terraform-provider-cloudflare/issues/6177)) ([c35109a](https://github.com/cloudflare/terraform-provider-cloudflare/commit/c35109a5d11d1e03b56f043e1491ccde577d8467))
+
 ## 5.10.0 (2025-09-12)
 
 Full Changelog: [v5.9.0...v5.10.0](https://github.com/cloudflare/terraform-provider-cloudflare/compare/v5.9.0...v5.10.0)
